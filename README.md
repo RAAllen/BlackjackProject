@@ -26,11 +26,11 @@
 * The user will be able to be dealt another card if they are not at a hand value of twenty one or over.
 * The dealer will be able to be dealt another card if they are not at a hand of twenty one or over.
 * If the user had a hand of twenty one on the first deal, and the dealer did not, the user wins.
-* If the dealer has a hand of under seventeen, they must be dealt another card.
+* If the dealer has a hand of under seventeen, they will be dealt another card.
 * If the user has a hand of twenty one and the dealer does not, the user wins.
 * If the dealer has a hand of twenty one and the user does not, the dealer wins.
 * It the user has a better hand than the dealer upon both players retiring, the user wins.
-* If the dealer has a better hand than the dealer upon both players retiring, the dealer wins.
+* If the dealer has a better hand than the user upon both players retiring, the dealer wins.
 * If the dealer and the user both have a hand of twenty one, the game is a draw, no one wins.
 
 
