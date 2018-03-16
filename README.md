@@ -20,10 +20,10 @@
 
 ## Program Specifications
 
-*
-*
-*
-*
+* The user will be able to be dealt an opening hand of two cards.
+* The computer will be dealt an opening hand of two cards.
+* The user will only be able to view one of the computer's opening cards.
+* 
 *
 *
 
