@@ -1,5 +1,5 @@
 package com.skilldistillery.cards.blackjack;
 
-public class BlackJackManager {
-	
+public class BlackJack {
+
 }

@@ -1,5 +1,10 @@
 package com.skilldistillery.cards.blackjack;
 
-public class Dealer {
+import java.util.ArrayList;
 
+import com.skilldistillery.cards.common.Card;
+import com.skilldistillery.cards.common.Deck;
+
+public class Dealer {
+	Deck deck = new Deck();
 }
