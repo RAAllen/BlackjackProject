@@ -13,8 +13,7 @@ public class Hand {
 		this.hand = hand;
 	}
 
-	public void addCard(Card card) {
-		Card cardToAdd = deck.dealCard();
+	public void addCard(Card cardToAdd) {
 		hand.add(cardToAdd);
 	}
 	
