@@ -1,7 +1,6 @@
 package com.skilldistillery.cards.blackjack;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import com.skilldistillery.cards.common.Card;
 import com.skilldistillery.cards.common.Deck;
@@ -15,14 +14,18 @@ public class Game {
 	Player player = new Player(null, playerHand);
 	Player computer = new Player("Dealer", computerHand);
 	
-	public void playGame(Scanner scanner) {
+	public void playGame() {
 		openingDeal();
+		dealAgain();
 	}
 
 	public void openingDeal() {
-		ioManager.print(new TextWithNewLine("\1F0AC Welcome to the BlackJack Casino! Good Luck! \u1F0DB"));
+		ioManager.print(new TextWithNewLine("\1F0AC Welcome to the BlackJack Casino! \u1F0DB"));
+		ioManager.print(new TextWithNewLine("What's your name?"));
+		String theInput = ioManager.getUserInput(new Text(""));
+		player.setName(theInput);
+		ioManager.print(new TextWithNewLine("Let's play a round " + player.getName() + ".  Good Luck!"));
 		deck.shuffle();
-		ioManager.print(new TextWithNewLine("Let's play a round..."));
 		for (int i = 0; i < 2; i++) {
 			Card card = deck.dealCard();
 			playerHand.addCard(card);
@@ -32,8 +35,11 @@ public class Game {
 		Card card = deck.dealCard();
 		computerHand.addCard(card);
 		ArrayList<Card> currentComputerHand = computerHand.getPlayerHand();
-		ioManager.print(new TextWithNewLine("The computer is showing " + currentComputerHand));
-
+		ioManager.print(new TextWithNewLine("The Dealer is showing a " + currentComputerHand + ". The Dealer also has another facedown card."));
+	}
+	
+	public void dealAgain() {
+		
 	}
 
 }
