@@ -29,4 +29,10 @@ public class Hand {
 		}
 		return totalHandValue;
 	}
+
+	@Override
+	public String toString() {
+		return "[" + hand + "]";
+	}
+	
 }

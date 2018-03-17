@@ -14,7 +14,12 @@ public class Player {
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		if(name == null || name == "") {
+			throw new NullInputException();
+		}
+		else {			
+			this.name = name;
+		}
 	}
 
 	public Hand getHand() {

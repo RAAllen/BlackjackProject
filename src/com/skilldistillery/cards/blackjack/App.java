@@ -6,6 +6,10 @@ public class App {
 	private Game game = new Game();
 	private IOManager ioManager = new SystemIOManager();
 	
+	public App() {
+		ioManager.init();
+	}
+	
 	public static void main(String[] args) {
 		App app = new App();
 		app.game.playGame();
@@ -14,10 +18,6 @@ public class App {
 
 	private void shutdown() {
 		ioManager.destroy();
-	}
-
-	public App() {
-		ioManager.init();
 	}
 
 }
