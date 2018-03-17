@@ -3,11 +3,9 @@ package com.skilldistillery.cards.blackjack;
 import java.util.ArrayList;
 
 import com.skilldistillery.cards.common.Card;
-import com.skilldistillery.cards.common.Deck;
 
 public class Hand {
 	private ArrayList<Card> hand;
-	Deck deck = new Deck();
 	
 	public Hand(ArrayList<Card> hand) {
 		this.hand = hand;
@@ -19,6 +17,10 @@ public class Hand {
 	
 	public ArrayList<Card> getPlayerHand() {
 		return hand;
+	}
+	
+	public void emptyHand() {
+		hand.clear();
 	}
 	
 	public int getValueOfHand() {
