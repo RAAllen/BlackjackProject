@@ -10,8 +10,10 @@ public class Game {
 	Deck deck = new Deck();
 	Player player = new Player();
 	Player computer = new Player();
-
+	Boolean keepPlaying = true;
+	
 	public void playGame() {
+		while(keepPlaying) {
 		ioManager.print(new TextWithNewLine("\u1F0AC Welcome to the BlackJack Casino! \u1F0DB"));
 		ioManager.print(new TextWithNewLine("What's your name?"));
 		String theInput = ioManager.getUserInput(new Text(""));
@@ -23,9 +25,11 @@ public class Game {
 		}
 		ioManager.print(new TextWithNewLine("Let's play a round " + player.getName() + ".  Good Luck!"));
 		openingDeal();
+		}
 	}
 
 	public void openingDeal() {
+		//start of a new hand for player and computer
 		if (deck.checkDeckSize() < 26) {
 			deck.emptyDeck();
 			deck.makeDeck();
@@ -46,7 +50,7 @@ public class Game {
 	}
 
 	public void playerTurn() {
-		//calls the hit or stay while the player 21 or under
+		//calls the hit or stay while the player is 21 or under
 		while (player.playerBusts() == false) {
 			hitOrStay();
 		}
@@ -60,7 +64,6 @@ public class Game {
 		if (hitOrStayValue.equalsIgnoreCase("h")) {
 			player.getHand().addCard(deck.dealCard());
 			displayPlayer();
-			computerTurn();
 		} else if (hitOrStayValue.equalsIgnoreCase("s")) {
 			computerTurn();
 		} else {
@@ -74,15 +77,17 @@ public class Game {
 			if (computer.getHand().getValueOfHand() < 17) {
 				computer.getHand().addCard(deck.dealCard());
 				displayComputer();
-				playerTurn();
 			} else {
-				playerTurn();
+				compareHands();
 			}
+		}
+		if (computer.playerBusts() == true) {
+			ioManager.print(new WinMessage());
 		}
 		playAgain();
 	}
 	
-	public void playAgain() {
+	public Boolean playAgain() {
 		//to see if the player wants to play another game after 
 		ioManager.print(new TextWithNewLine("Do you want to play again " + player.getName() + "? (Please type y or n)"));
 		String playAgainValue = ioManager.getUserInput(new Text(""));
@@ -91,10 +96,11 @@ public class Game {
 			player.getHand().emptyHand();
 			openingDeal();
 		} else if (playAgainValue.equalsIgnoreCase("n")) {
-			//exit method
+			keepPlaying = false;
 		} else {
 			throw new InputMismatchException();
 		}
+		return keepPlaying;
 	}
 
 	public void compareHands() {
