@@ -13,7 +13,7 @@ public class Game {
 	Boolean keepPlaying = true;
 	
 	public void playGame() {
-		while(keepPlaying) {
+		while(keepPlaying == true) {
 		ioManager.print(new TextWithNewLine("\u1F0AC Welcome to the BlackJack Casino! \u1F0DB"));
 		ioManager.print(new TextWithNewLine("What's your name?"));
 		String theInput = ioManager.getUserInput(new Text(""));
