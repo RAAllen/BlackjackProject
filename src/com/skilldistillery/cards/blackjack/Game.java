@@ -8,13 +8,11 @@ import com.skilldistillery.iomanager.common.*;
 public class Game {
 	private IOManager ioManager = new SystemIOManager();
 	Deck deck = new Deck();
-	Hand playerHand = new Hand(null);
-	Hand computerHand = new Hand(null);
-	Player player = new Player(null, playerHand);
-	Player computer = new Player("Dealer", computerHand);
+	Player player = new Player();
+	Player computer = new Player();
 
 	public void playGame() {
-		ioManager.print(new TextWithNewLine("\1F0AC Welcome to the BlackJack Casino! \u1F0DB"));
+		ioManager.print(new TextWithNewLine("\u1F0AC Welcome to the BlackJack Casino! \u1F0DB"));
 		ioManager.print(new TextWithNewLine("What's your name?"));
 		String theInput = ioManager.getUserInput(new Text(""));
 		try {
@@ -34,22 +32,22 @@ public class Game {
 		}
 		deck.shuffle();
 		for (int i = 0; i < 2; i++) {
-			playerHand.addCard(deck.dealCard());
+			player.getHand().addCard(deck.dealCard());
 		}
 		displayPlayer();
 		if (player.playerBusts() == false) {
-			computerHand.addCard(deck.dealCard());
+			computer.getHand().addCard(deck.dealCard());
 			displayComputer();
 			// need to put in next deal method call here
 		} else if (player.playerBusts() == true) {
 			ioManager.print(new LoseMessage());
-			// need to put in restart method call here
+			playAgain();
 		}
 	}
 
 	public void playerTurn() {
 		while (player.playerBusts() == false) {
-
+			hitOrStay();
 		}
 	}
 
@@ -57,7 +55,7 @@ public class Game {
 		ioManager.print(new TextWithNewLine(player.getName() + " do you want to stay or hit? (Please type h or s)"));
 		String hitOrStayValue = ioManager.getUserInput(new Text(""));
 		if (hitOrStayValue.equalsIgnoreCase("h")) {
-			playerTurn();
+			player.getHand().addCard(deck.dealCard());
 		} else if (hitOrStayValue.equalsIgnoreCase("s")) {
 			computerTurn();
 		} else {
@@ -67,40 +65,47 @@ public class Game {
 
 	public void computerTurn() {
 		while (computer.playerBusts() == false) {
-			if (computerHand.getValueOfHand() < 17) {
-				computerHand.addCard(deck.dealCard());
+			if (computer.getHand().getValueOfHand() < 17) {
+				computer.getHand().addCard(deck.dealCard());
 			} else {
-
+				playerTurn();
 			}
 		}
 	}
 	
 	public void playAgain() {
-		
+		ioManager.print(new TextWithNewLine("Do you want to play again " + player.getName() + "? (Please type y or n)"));
+		String playAgainValue = ioManager.getUserInput(new Text(""));
+		if (playAgainValue.equalsIgnoreCase("y")) {
+			//restart method goes here
+		} else if (playAgainValue.equalsIgnoreCase("n")) {
+			//exit method
+		} else {
+			throw new InputMismatchException();
+		}
 	}
 
 	public void compareHands() {
-		if (computerHand.getValueOfHand() > playerHand.getValueOfHand()) {
+		if (computer.getHand().getValueOfHand() > player.getHand().getValueOfHand()) {
 			ioManager.print(new LoseMessage());
-			// need to add reset method
-		} else if (playerHand.getValueOfHand() > computerHand.getValueOfHand()) {
+			playAgain();
+		} else if (player.getHand().getValueOfHand() > computer.getHand().getValueOfHand()) {
 			ioManager.print(new WinMessage());
-			//need to add reset method
+			playAgain();
 		}
 	}
 
 	public void displayPlayer() {
-		ioManager.print(new TextWithNewLine("Your current hand is " + playerHand.getPlayerHand()));
-		ioManager.print(new TextWithNewLine("That adds up to " + playerHand.getValueOfHand()));
+		ioManager.print(new TextWithNewLine("Your current hand is " + player.getHand().getPlayerHand()));
+		ioManager.print(new TextWithNewLine("That adds up to " + player.getHand().getValueOfHand()));
 
 	}
 
 	public void displayComputer() {
-		ioManager.print(new TextWithNewLine("The Dealer is showing " + computerHand.getPlayerHand()));
-		ioManager.print(new TextWithNewLine("That adds up to " + computerHand.getValueOfHand()));
+		ioManager.print(new TextWithNewLine("The Dealer is showing " + computer.getHand().getPlayerHand()));
+		ioManager.print(new TextWithNewLine("That adds up to " + computer.getHand().getValueOfHand()));
 	}
 
 }
 
 // ioManager.print(new BlackJackMessage());
-// ioManager.print(new WinMessage());

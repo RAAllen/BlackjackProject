@@ -10,6 +10,10 @@ public class Hand {
 	public Hand(ArrayList<Card> hand) {
 		this.hand = hand;
 	}
+	
+	public Hand() {
+		hand = new ArrayList<Card>();
+	}
 
 	public void addCard(Card cardToAdd) {
 		hand.add(cardToAdd);

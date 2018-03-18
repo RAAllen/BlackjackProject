@@ -6,7 +6,11 @@ public class Player {
 	
 	public Player(String name, Hand hand) {
 		this.name = name;
-		this.hand = hand;
+		hand = new Hand();
+	}
+	
+	public Player() {
+		hand = new Hand();
 	}
 
 	public String getName() {
