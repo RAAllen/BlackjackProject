@@ -26,13 +26,13 @@ public class Game {
 		ioManager.print(new TextWithNewLine("* * * * * * * * * * * * * * * * * * * *"));
 		openingDeal();
 		}
-		ioManager.print(new TextWithNewLine("Goodbye" + player.getName() + "! See you again next time!"));
+		ioManager.print(new TextWithNewLine("Goodbye " + player.getName() + "! See you again next time!"));
 	}
+	
 
 	public void openingDeal() {
 		//start of a new hand for player and computer
-		if (deck.checkDeckSize() < 46) {
-			deck.emptyDeck();
+		if (deck.checkDeckSize() < 6) {
 			deck.makeDeck();
 		};
 		ioManager.print(new Text("" + deck.checkDeckSize()));
@@ -43,7 +43,8 @@ public class Game {
 		displayPlayer();
 		if (player.playerBusts() == false) {
 			computer.getHand().addCard(deck.dealCard());
-			displayComputer();
+			displayComputerFirstHandOnly();			
+			computer.getHand().addCard(deck.dealCard());
 			playerTurn();
 		} else if (player.playerBusts() == true) {
 			ioManager.print(new LoseMessage());
@@ -78,6 +79,7 @@ public class Game {
 
 	public void computerTurn() {
 		//deals another card to the computer if they are under 17 and not busted
+		displayComputer();
 		while (computer.playerBusts() == false) {
 			if (computer.getHand().getValueOfHand() < 17) {
 				computer.getHand().addCard(deck.dealCard());
@@ -126,6 +128,12 @@ public class Game {
 		ioManager.print(new TextWithNewLine("\nYour current hand is " + player.getHand().getPlayerHand()));
 		ioManager.print(new TextWithNewLine("That adds up to " + player.getHand().getValueOfHand()));
 
+	}
+	
+	public void displayComputerFirstHandOnly() {
+		//displays computer hand and score
+		ioManager.print(new TextWithNewLine("\nThe Dealer is showing " + computer.getHand().getPlayerHand()));
+		ioManager.print(new TextWithNewLine("That is worth " + computer.getHand().getValueOfHand()));
 	}
 
 	public void displayComputer() {
