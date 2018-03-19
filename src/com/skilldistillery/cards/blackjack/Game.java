@@ -10,9 +10,10 @@ public class Game {
 	private Deck deck = new Deck();
 	private Player player = new Player();
 	private Player computer = new Player();
+	private Boolean keepPlaying = true;
 	
 	public void playGame() {
-		while(true) {
+		while(keepPlaying == true) {
 		ioManager.print(new WelcomeMessage());
 		String theInput = ioManager.getUserInput(new Text(""));
 		try {
@@ -25,6 +26,7 @@ public class Game {
 		ioManager.print(new TextWithNewLine("* * * * * * * * * * * * * * * * * * * *"));
 		openingDeal();
 		}
+		ioManager.print(new TextWithNewLine("Goodbye" + player.getName() + "! See you again next time!"));
 	}
 
 	public void openingDeal() {
@@ -99,7 +101,7 @@ public class Game {
 			player.getHand().emptyHand();
 			openingDeal();
 		} else if (playAgainValue.equalsIgnoreCase("n")) {
-			ioManager.destroy();
+			keepPlaying = false;
 		} else {
 			throw new InputMismatchException();
 		}
