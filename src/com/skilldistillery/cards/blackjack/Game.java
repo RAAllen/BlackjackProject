@@ -7,15 +7,13 @@ import com.skilldistillery.iomanager.common.*;
 
 public class Game {
 	private IOManager ioManager = new SystemIOManager();
-	Deck deck = new Deck();
-	Player player = new Player();
-	Player computer = new Player();
-	Boolean keepPlaying = true;
+	private Deck deck = new Deck();
+	private Player player = new Player();
+	private Player computer = new Player();
 	
 	public void playGame() {
-		while(keepPlaying == true) {
-		ioManager.print(new TextWithNewLine("\u1F0AC Welcome to the BlackJack Casino! \u1F0DB"));
-		ioManager.print(new TextWithNewLine("What's your name?"));
+		while(true) {
+		ioManager.print(new WelcomeMessage());
 		String theInput = ioManager.getUserInput(new Text(""));
 		try {
 			player.setName(theInput);
@@ -23,17 +21,19 @@ public class Game {
 			ioManager.print(new TextWithNewLine(
 					"I won't play with someone who is so shady they won't even tell me their name..."));
 		}
-		ioManager.print(new TextWithNewLine("Let's play a round " + player.getName() + ".  Good Luck!"));
+		ioManager.print(new TextWithNewLine("\nLet's play a round " + player.getName() + ".  Good Luck!"));
+		ioManager.print(new TextWithNewLine("* * * * * * * * * * * * * * * * * * * *"));
 		openingDeal();
 		}
 	}
 
 	public void openingDeal() {
 		//start of a new hand for player and computer
-		if (deck.checkDeckSize() < 26) {
+		if (deck.checkDeckSize() < 46) {
 			deck.emptyDeck();
 			deck.makeDeck();
-		}
+		};
+		ioManager.print(new Text("" + deck.checkDeckSize()));
 		deck.shuffle();
 		for (int i = 0; i < 2; i++) {
 			player.getHand().addCard(deck.dealCard());
@@ -54,12 +54,15 @@ public class Game {
 		while (player.playerBusts() == false) {
 			hitOrStay();
 		}
+		if (player.playerBusts() == true) {
+			ioManager.print(new LoseMessage());
+		}
 		playAgain();
 	}
 
 	public void hitOrStay() {
 		//lets the player choose whether they want another card
-		ioManager.print(new TextWithNewLine(player.getName() + " do you want to stay or hit? (Please type h or s)"));
+		ioManager.print(new TextWithNewLine("\n" + player.getName() + " do you want to stay or hit? (Please type h or s)"));
 		String hitOrStayValue = ioManager.getUserInput(new Text(""));
 		if (hitOrStayValue.equalsIgnoreCase("h")) {
 			player.getHand().addCard(deck.dealCard());
@@ -87,20 +90,19 @@ public class Game {
 		playAgain();
 	}
 	
-	public Boolean playAgain() {
+	public void playAgain() {
 		//to see if the player wants to play another game after 
-		ioManager.print(new TextWithNewLine("Do you want to play again " + player.getName() + "? (Please type y or n)"));
+		ioManager.print(new TextWithNewLine("\nDo you want to play again " + player.getName() + "? (Please type y or n)"));
 		String playAgainValue = ioManager.getUserInput(new Text(""));
 		if (playAgainValue.equalsIgnoreCase("y")) {
 			computer.getHand().emptyHand();
 			player.getHand().emptyHand();
 			openingDeal();
 		} else if (playAgainValue.equalsIgnoreCase("n")) {
-			keepPlaying = false;
+			ioManager.destroy();
 		} else {
 			throw new InputMismatchException();
 		}
-		return keepPlaying;
 	}
 
 	public void compareHands() {
@@ -111,19 +113,22 @@ public class Game {
 		} else if (player.getHand().getValueOfHand() > computer.getHand().getValueOfHand()) {
 			ioManager.print(new WinMessage());
 			playAgain();
+		} else if (player.getHand().getValueOfHand() == computer.getHand().getValueOfHand()) {
+			ioManager.print(new DrawMessage());
+			playAgain();
 		}
 	}
 
 	public void displayPlayer() {
 		//displays user score and hand
-		ioManager.print(new TextWithNewLine("Your current hand is " + player.getHand().getPlayerHand()));
+		ioManager.print(new TextWithNewLine("\nYour current hand is " + player.getHand().getPlayerHand()));
 		ioManager.print(new TextWithNewLine("That adds up to " + player.getHand().getValueOfHand()));
 
 	}
 
 	public void displayComputer() {
 		//displays computer hand and score
-		ioManager.print(new TextWithNewLine("The Dealer is showing " + computer.getHand().getPlayerHand()));
+		ioManager.print(new TextWithNewLine("\nThe Dealer is showing " + computer.getHand().getPlayerHand()));
 		ioManager.print(new TextWithNewLine("That adds up to " + computer.getHand().getValueOfHand()));
 	}
 
