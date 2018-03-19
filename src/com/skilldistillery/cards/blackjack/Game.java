@@ -43,7 +43,7 @@ public class Game {
 		displayPlayer();
 		if (player.playerBusts() == false) {
 			computer.getHand().addCard(deck.dealCard());
-			displayComputerFirstHandOnly();			
+			displayComputer();			
 			computer.getHand().addCard(deck.dealCard());
 			playerTurn();
 		} else if (player.playerBusts() == true) {
@@ -128,12 +128,6 @@ public class Game {
 		ioManager.print(new TextWithNewLine("\nYour current hand is " + player.getHand().getPlayerHand()));
 		ioManager.print(new TextWithNewLine("That adds up to " + player.getHand().getValueOfHand()));
 
-	}
-	
-	public void displayComputerFirstHandOnly() {
-		//displays computer hand and score
-		ioManager.print(new TextWithNewLine("\nThe Dealer is showing " + computer.getHand().getPlayerHand()));
-		ioManager.print(new TextWithNewLine("That is worth " + computer.getHand().getValueOfHand()));
 	}
 
 	public void displayComputer() {
